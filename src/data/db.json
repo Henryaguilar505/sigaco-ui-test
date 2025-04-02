@@ -1,0 +1,53 @@
+
+[
+    {
+        "id": 1,
+        "nombre": "Juan",
+        "estado": "activo"
+    },
+    {
+        "id": 2,
+        "nombre": "Pedro",
+        "estado": "ausente"
+    },
+    {
+        "id": 3,
+        "nombre": "Joaquin",
+        "estado": "activo"
+    },
+    {
+        "id": 4,
+        "nombre": "Enrique",
+        "estado": "justificado"
+    },
+    {
+        "id": 5,
+        "nombre": "Matias",
+        "estado": "activo"
+    },
+    {
+        "id": 6,
+        "nombre": "Luzbel",
+        "estado": "justificado"
+    },
+    {
+        "id": 7,
+        "nombre": "Luci",
+        "estado": "activo"
+    },
+    {
+        "id": 8,
+        "nombre": "Astar",
+        "estado": "activo"
+    },
+    {
+        "id": 9,
+        "nombre": "Mefisto",
+        "estado": "activo"
+    },
+    {
+        "id": 10,
+        "nombre": "Nina",
+        "estado": "ausente"
+    }
+]

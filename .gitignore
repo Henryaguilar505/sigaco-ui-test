@@ -1,0 +1,43 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build output
+build/
+dist/
+
+# Dependency directories
+.DS_Store
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Editor/IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+
+# Miscellaneous
+*.lock
+*.cache
+*.tmp
+*.bak
+*.orig
+
+# React specific
+public/*.cache
+public/*.map
+*.env.local

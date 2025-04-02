@@ -1,0 +1,364 @@
+Uso de una biblioteca o marco: también hay varias bibliotecas y marcos que puede usar para manejar tokens de autenticación en una aplicación React.
+ Por ejemplo, puede usar la biblioteca "react-token-auth" para manejar tokens de autenticación usando JSON Web Tokens (JWT), 
+ o puede usar la biblioteca "redux-auth-wrapper" para integrar tokens de autenticación con la biblioteca de administración de estado de Redux. .
+
+
+ Componenete de EditEnrollment
+ import { Link, Form, useActionData, ActionFunctionArgs, redirect, LoaderFunctionArgs, useLoaderData } from "react-router-dom"
+import ErrorMessage from "../components/ErrorMessage"
+import { addStudent, getStudentsById, } from "../services/estudianteService"
+import EstudianteForm from "../components/EstudianteForm"
+import Aside from "../components/Aside"
+import { Enrollment, EnrollmentUpdate, Student } from "../types"
+import { getEnrollmentsById } from "../services/enrollmentService"
+import { getStudentWithEnrollment } from "../services/studentServices"
+
+
+export async function loader({ params }: LoaderFunctionArgs) {
+    if (params.id !== undefined) {
+        const enrollment = await getEnrollmentsById(+params.id)
+        if (!enrollment) {
+            return redirect('/matricula')
+        }
+        return enrollment
+    }
+    console.log('Desde el loader')
+}
+
+
+export default function EditEnrollment() {
+
+    const enrollment = useLoaderData() as EnrollmentUpdate
+    return (
+
+        <div className=" flex flex-col sm:flex-row mt-12 dark:bg-slate-900 ">
+            <Aside />
+            <div className=" mt-12 w-3/4 m-auto">
+                <h1 className=" font-bold text-2xl text-center uppercase">Editar los datos del registro de la matricula</h1>
+                <Link
+                    to="/matricula"
+                    className="rounded bg-emerald-700 p-3 text-sm font-bold text-white shadow-sm hover:bg-purple-900"
+
+                >Volver a mostrar los datos</Link>
+
+                {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
+
+                <Form
+                    method='POST'
+                    className="mt-6"
+                >
+                    {/**datos de curso  */}
+                    <p className=' bg-blue-400 font-semibold text-xl text-slate-800 pl-4 rounded-t-xl h-8 text-center p-1 '>Datos del curso</p>
+                    <div className=" bg-blue-50 rounded-b-xl p-4 border border-b-slate-600 border-x-slate-600 grid grid-cols-4 gap-4">
+                        <div className="col-span-3 w-full">
+                            <label
+                                htmlFor="course_id"
+                                className=' flex flex-col '
+                            >Curso</label>
+                            <select
+                                name="course_id"
+                                id="course_id"
+                                className=" mt-2 block w-full h-12 p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                defaultValue={enrollment.enrollment.course_id}
+                            >
+                                <option value="" disabled selected>Elija una opción</option>
+                                <option value={1}>Diseño gráfico</option>
+                                <option value={2}>Operador de microcomputadora</option>
+                                <option value={3}>Curso de Inglés</option>
+                                <option value={4}>Curso de Caja</option>
+                                <option value={5}>Diseño Gráfico</option>
+                                <option value={6}>Operador de Microcomputadora</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label
+                                className="text-gray-800 flex flex-col"
+                                htmlFor="enrollment_date"
+                            >Fecha de matricula:</label>
+                            <input
+                                id="enrollment_date"
+                                type="date"
+                                className="mt-2 block w-full h-12 p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                name="enrollment_date"
+                                defaultValue={enrollment.enrollment.enrollment_date}
+                            />
+                        </div>
+                    </div>
+
+
+                    {/**Datos de estudiante */}
+                    <div className=" mt-4">
+                        <label
+                            className="text-gray-800"
+                            htmlFor="name"
+                        >Nombre del Estudiante</label>
+                        <input
+                            id="name"
+                            type="text"
+                            className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                            placeholder="Nombre y Apellido"
+                            name="name"
+                            defaultValue={enrollment.enrollment.student.name}
+                        />
+                    </div>
+
+                    <div className=" grid grid-cols-2 gap-4 mt-4">
+                        <div className="">
+                            <label
+                                className="text-gray-800"
+                                htmlFor="identity_card"
+                            >Cedula</label>
+                            <input
+                                id="identity_card"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. 123-010203-1000A"
+                                name="identity_card"
+                                defaultValue={enrollment.enrollment.student.identity_card || ''}
+                            />
+                        </div>
+
+                        <div className="">
+                            <label
+                                className="text-gray-800"
+                                htmlFor="phone"
+                            >Celular</label>
+                            <input
+                                id="phone"
+                                type="tel"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. 81234567"
+                                name="phone"
+                                defaultValue={enrollment.enrollment.student.phone}
+                            />
+                        </div>
+                    </div>
+
+                    <div className=" grid grid-cols-3 mt-4">
+                        <div className=" w-full space-y-2">
+                            <label
+                                className="text-gray-800 mr-6 flex"
+                                htmlFor="gender"
+                            >Sexo </label>
+                            <div className=" space-x-3">
+                                <input
+                                    id='gender'
+                                    type='radio'
+                                    name='gender'
+                                    value="M"
+                                    defaultChecked={enrollment.enrollment.student.gender === 'M'}
+                                />
+                                <label
+                                    htmlFor='gender'
+                                    className=' mr-6'
+                                >Masculino</label>
+                            </div>
+                            <div className=" space-x-3">
+                                <input
+                                    id='gender'
+                                    type='radio'
+                                    name='gender'
+                                    value="F"
+                                    defaultChecked={enrollment.enrollment.student.gender === 'F'}
+                                />
+                                <label
+                                    htmlFor='gender'
+                                >Femenino</label>
+                            </div>
+                        </div>
+
+                        <div className=" w-full col-span-2">
+                            <label
+                                className="text-gray-800"
+                                htmlFor="birthplace"
+                            >Lugar de nacimiento:</label>
+                            <input
+                                id="birthplace"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Ocotal, Nueva Segovia"
+                                name="birthplace"
+                                defaultValue={enrollment.enrollment.student.birthplace}
+                            />
+                        </div>
+                    </div>
+
+                    <div className=" grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="birth_date"
+                            >Fecha de nacimiento:</label>
+                            <input
+                                id="birth_date"
+                                type="date"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Ocotal, Nueva Segovia"
+                                name="birth_date"
+                                defaultValue={enrollment.enrollment.student.birth_date}
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="nationality"
+                            >Nacionalidad:</label>
+                            <input
+                                id="nationality"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Nicaraguense"
+                                name="nationality"
+                                defaultValue={enrollment.enrollment.student.nationality}
+                            />
+                        </div>
+                    </div>
+
+                    <div className=" grid grid-cols-3 gap-4 mt-4">
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="academic_level"
+                            >Nivel academico:</label>
+                            <input
+                                id="academic_level"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Bachiller"
+                                name="academic_level"
+                                defaultValue={enrollment.enrollment.student.academic_level}
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="profession"
+                            >Profesión:</label>
+                            <input
+                                id="profession"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Ingeniero"
+                                name="profession"
+                                defaultValue={enrollment.enrollment.student.profession || ''}
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="occupation"
+                            >Oficio:</label>
+                            <input
+                                id="occupation"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Cajero de PALI"
+                                name="occupation"
+                                defaultValue={enrollment.enrollment.student.occupation || ''}
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label
+                            className="text-gray-800"
+                            htmlFor="address"
+                        >Dirección:</label>
+                        <input
+                            id="address"
+                            type="text"
+                            className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                            placeholder="Ej. Stairway to Heaven"
+                            name="address"
+                            defaultValue={enrollment.enrollment.student.address}
+                        />
+                    </div>
+
+                    <div className=" grid grid-cols-3 gap-4 mt-4">
+                        <div className=" col-span-2">
+                            <label
+                                className="text-gray-800"
+                                htmlFor="school_name"
+                            >Nombre del colegio:</label>
+                            <input
+                                id="school_name"
+                                type="text"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                placeholder="Ej. Brick in The Wall"
+                                name="school_name"
+                                defaultValue={enrollment.enrollment.student.school_name}
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                className="text-gray-800"
+                                htmlFor="household_members"
+                            >Número de personas en el hogar:</label>
+                            <input
+                                id="household_members"
+                                type="number"
+                                className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                                name="household_members"
+                                defaultValue={enrollment.enrollment.student.household_members || ''}
+                            />
+                        </div>
+                    </div>
+
+
+                    {/**Contacto de emergencias  */}
+                    <div className=" bg-red-50 rounded-xl pb-2">
+                        <p className=' bg-red-400 font-semibold text-xl text-slate-800 pl-4 rounded-t-xl h-8 my-4 text-center p-1'>En caso de emergencia</p>
+
+                        <label
+                            className="text-gray-800 mt-4"
+                            htmlFor="emergency_contact_name"
+                        >Llamar a</label>
+                        <input
+                            id="emergency_contact_name"
+                            type="text"
+                            className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                            placeholder="Ej. Juan Perez"
+                            name="emergency_contact_name"
+                            defaultValue={enrollment.enrollment.student.emergency_contact_name}
+                        />
+                        <label
+                            className="text-gray-800"
+                            htmlFor="emergency_contact_phone"
+                        >Celular:</label>
+                        <input
+                            id="emergency_contact_phone"
+                            type="tel"
+                            className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                            placeholder="Ej. 81234567"
+                            name="emergency_contact_phone"
+                            defaultValue={enrollment.enrollment.student.emergency_contact_phone}
+                        />
+                        <label
+                            className="text-gray-800"
+                            htmlFor="emergency_contact_address"
+                        >Dirección:</label>
+                        <input
+                            id="emergency_contact_address"
+                            type="text"
+                            className="mt-2 block w-full p-3 bg-gray-50 rounded-lg border border-slate-400"
+                            placeholder="Ej. Stairway to Heaven"
+                            name="emergency_contact_address"
+                            defaultValue={enrollment.enrollment.student.emergency_contact_address || ''}
+                        />
+                    </div>
+                    <input
+                        type="submit"
+                        className="mt-5 w-full bg-emerald-700 p-2 text-white font-bold text-lg cursor-pointer rounded-md"
+                        value='Registrar estudiante'
+                    />
+                </Form>
+            </div>
+
+        </div>
+    )
+}
