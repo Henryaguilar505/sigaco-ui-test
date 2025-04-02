@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom"
 import { AttendanceOfCourse } from "../types"
 import { formatDate } from "../utils"
-import { date } from "valibot"
+
 
 type attendanceDataType = {
     attendanceData: AttendanceOfCourse[],

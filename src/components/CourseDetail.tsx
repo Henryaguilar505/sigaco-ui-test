@@ -1,4 +1,4 @@
-import { Course } from '../types'
+import { Course } from '../types/index'
 import { useNavigate } from 'react-router-dom'
 
 type CourseDetailProps = {

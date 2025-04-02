@@ -1,10 +1,10 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect, useActionData, useLoaderData } from 'react-router-dom'
-import { getAttendanceById, updateAttendance } from '../services/attendanceService'
+import { LoaderFunctionArgs, redirect, useActionData, useLoaderData } from 'react-router-dom'
+import { getAttendanceById } from '../services/attendanceService'
 import { AttendanceWithEnrollmentId, EnrollmentWithStudent } from '../types'
 import { getEnrollmentsById } from '../services/enrollmentService'
 import ErrorMessage from '../components/ErrorMessage'
 import { Link, Form } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 export async function loader({ params }: LoaderFunctionArgs) {
     if (params.id !== undefined) {
@@ -15,20 +15,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
         const student = await getEnrollmentsById(attendance.enrollment_id)
 
         return { attendance, student }
-    }
-}
-
-export async function action({ request, params }: ActionFunctionArgs) {
-    const data = Object.fromEntries(await request.formData())
-
-    let error = ''
-    if (Object.values(data).includes('')) {
-        error = 'Todos los campos son obligatorios'
-    }
-    if (params.id !== undefined) {
-        await updateAttendance(data, +params.id)
-        toast.success('Datos actualizados')
-        return redirect('/asistencia')
     }
 }
 

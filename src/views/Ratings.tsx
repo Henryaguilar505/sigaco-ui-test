@@ -89,6 +89,8 @@ export default function Ratings() {
         toast.info('Se elimino la calificación')
     }
 
+    console.log(error)
+
     return (
 
         <>

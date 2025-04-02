@@ -1,6 +1,5 @@
-import { useLoaderData } from "react-router-dom";
 import { getCourses } from "../services/courseService"
-import { Course, CourseSchema } from "../types/index";
+import { Course } from "../types/index";
 import { convertToHourMinute } from "../utils";
 import { useEffect, useState } from "react";
 import { exportReport } from "../services/reportsService";

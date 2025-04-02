@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { DraftEnrollment, Enrollment } from "../types"
+import { Student } from "../types/index"
 
 
 type EnrollmentDetailsProps = {
-    enrollment: Enrollment
+    enrollment: Student
 }
 
 export default function EnrollmentDetails({ enrollment }: EnrollmentDetailsProps) {

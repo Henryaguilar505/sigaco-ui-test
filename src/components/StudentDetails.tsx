@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Student } from "../types"
+import { Student } from "../types/index"
 
 type StudentDetailsProps = {
     student: Student

@@ -14,7 +14,7 @@ import ShowCourse, { loader as showCourseLoader } from './views/ShowCourse'
 import NewCourse, { loader as newCourseLoader, action as newCourseAction } from './views/NewCourse'
 import AttendanceComponent from './views/AttendanceComponent'
 import NewAttendance from './views/NewAttendance'
-import EditAttendance, { loader as editAttendanceLoader, action as editAttendaceAction } from './views/EditAttendance'
+import EditAttendance, { loader as editAttendanceLoader } from './views/EditAttendance'
 import Ratings, { action as ratingsAction, loader as ratingsLoader } from './views/Ratings'
 import NewRating, { loader as newRatingLoader } from './views/NewRating'
 import Teachers, { loader as teacherLoader } from './views/Teachers'
@@ -105,8 +105,7 @@ export const router = createBrowserRouter([
                             {
                                 path: 'modificar/:id',
                                 element: <EditAttendance />,
-                                loader: editAttendanceLoader,
-                                action: editAttendaceAction
+                                loader: editAttendanceLoader
                             }
                         ]
                     },

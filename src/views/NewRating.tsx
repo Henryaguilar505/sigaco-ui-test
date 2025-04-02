@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Course, AttendanceOfCourse, Rating } from '../types'
+import { Course, Rating } from '../types'
 import { getCourses } from '../services/courseService'
 import { useLoaderData, Link } from 'react-router-dom'
-import { getAttendanceOfCourse } from '../services/attendanceService'
 import { convertToHourMinute } from '../utils'
 import RatingModal from '../components/RatingModal'
 import { getRatingOfCourse } from '../services/ratingsService'
@@ -12,6 +11,15 @@ export async function loader() {
     const courses = await getCourses()
     return courses
 }
+
+// type Rating = {
+//     enrollment_id: number;
+//     student_name: string;
+//     grades: {
+//         grade: number;
+//         id: number;
+//     }[] | null;
+// }
 
 export default function NewRating() {
 
@@ -41,6 +49,7 @@ export default function NewRating() {
         setError(null); // Limpiar cualquier error anterior
     };
 
+    console.log(error)
     return (
         <div className='mt-12'>
             <p className='text-2xl font-bold uppercase text-center'>Ingresar nuevas calificaciones</p>
@@ -103,12 +112,12 @@ export default function NewRating() {
                                                 <td>Ingrese una</td>
                                                 <td>
                                                     {
-                                                        !rating.grades[0].grade ? (
+                                                        !!(rating.grades && rating.grades[0]?.grade) ? (
                                                             <button className="bg-fuchsia-800 rounded-lg border text-white p-2">
                                                                 <RatingModal
                                                                     key={rating.enrollment_id}
                                                                     rating={rating}
-                                                                    onUpdate={(updatedRating) => {
+                                                                    onAdd={(updatedRating: Rating) => { // Especifica el tipo aquí
                                                                         setRatingData((prevData) =>
                                                                             prevData?.map((r) =>
                                                                                 r.enrollment_id === updatedRating.enrollment_id ? updatedRating : r

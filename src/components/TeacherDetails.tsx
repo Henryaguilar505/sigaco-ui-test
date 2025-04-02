@@ -11,6 +11,7 @@ export async function loader() {
 export default function TeacherDetails() {
 
     const teachers = useLoaderData() as Teacher[]
+    console.log(teachers)
     return (
         <div className='mt-12'>TeacherDetails</div>
     )

@@ -1,12 +1,8 @@
 import { useEffect } from 'react'
-import { LineChart, PieChart } from '@mui/x-charts'
-import GraficoLineas from '../components/GraficoLineas'
 import Aside from '../components/Aside'
 import { getPieChartData } from '../services/chartService'
-import { ChartData } from '../types'
-import { useLoaderData } from 'react-router-dom'
 import { Bounce, toast, ToastContainer } from 'react-toastify'
-import { ActiveCourseChart, AverageAttendancePercentageChart, AverageGradesPerCourseChart, EnrollmentsPerMonthChart, StudentPerShiftChart, StudentsPerCourseChart, StudentsPerCourseLineChart, TotalActiveProfessorsCard, TotalActiveStudentsCard } from '../components/Charts'
+import { ActiveCourseChart, AverageAttendancePercentageChart, AverageGradesPerCourseChart, EnrollmentsPerMonthChart, StudentPerShiftChart, StudentsPerCourseChart, TotalActiveProfessorsCard, TotalActiveStudentsCard } from '../components/Charts'
 import { ReportCard } from '../components/reports'
 
 export async function loader() {
@@ -15,7 +11,6 @@ export async function loader() {
 }
 
 export default function Dashboard() {
-    const pieData = useLoaderData() as ChartData[]
 
     useEffect(() => {
         const notify = async () => {

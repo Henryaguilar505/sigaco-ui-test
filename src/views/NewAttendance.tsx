@@ -15,7 +15,6 @@ export default function NewAttendance() {
     const [courses, setCourses] = useState<Course[]>([]);
     const [selectedCourse, setSelectedCourse] = useState<string>('');
     const [attendanceData, setAttendanceData] = useState<AttendanceOfCourse[] | null>(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<string | null>(date);
     const [attendance, setAttendance] = useState<{ [date: string]: { [enrollmentId: number]: 'presente' | 'ausente' | 'justificado' | null } }>({});
@@ -110,7 +109,7 @@ export default function NewAttendance() {
         return <div>{error}</div>
     }
 
-    const currentAttendances = attendance[selectedDate] || {}
+    const currentAttendances = selectedDate ? attendance[selectedDate] || {} : {};
 
     return (
         <div className="flex flex-col sm:flex-row dark:bg-slate-900">
@@ -132,7 +131,7 @@ export default function NewAttendance() {
                     name="course_id"
                     id="course_id"
                     className="mt-4 rounded-md w-10/12 text-center"
-                    value={selectedCourse}
+                    value={selectedCourse || ''}
                     // defaultValue={idParam === null ? '' : parseInt(idParam)}
                     onChange={handleSelectChange}
                 >
@@ -147,7 +146,7 @@ export default function NewAttendance() {
                     <input
                         type="date"
                         id="dateInput"
-                        value={selectedDate}
+                        value={selectedDate || ''}
                         onChange={handleDateChange}
                     />
                 </div>

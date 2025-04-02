@@ -1,4 +1,4 @@
-import { AttendanceOfCourse } from "../types"
+import { AttendanceOfCourse } from "../types/index"
 
 type AttendanceDetailsProps = {
     attendance: AttendanceOfCourse

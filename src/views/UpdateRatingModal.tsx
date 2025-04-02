@@ -29,6 +29,10 @@ export default function UpdateRatingModal({ rating, onUpdate }: UpdateRatingModa
         }
 
         try {
+            if (!rating.grades || rating.grades.length === 0) {
+                throw new Error("No se encontró la calificación")
+
+            }
             await updateRating(grade_id, grade);
 
             const updatedRating = {
@@ -68,27 +72,32 @@ export default function UpdateRatingModal({ rating, onUpdate }: UpdateRatingModa
                             className="flex flex-col gap-4"
                             onSubmit={handleSubmit}
                         >
-                            <input
-                                type="text"
-                                name="grade_id"
-                                defaultValue={rating.grades[0].id}
-                                className="text-slate-100 bg-slate-100 pointer-events-none select-none"
-                                readOnly
-                                tabIndex={-1}
-                            />
 
-                            <div className="flex content-center">
-                                <label htmlFor="grade" className="text-black mr-4 content-center">
-                                    Calificación
-                                </label>
-                                <input
-                                    type="number"
-                                    name="grade"
-                                    placeholder="De 0 a 100"
-                                    defaultValue={rating.grades[0].grade}
-                                    className="text-black font-bold border border-slate-600 rounded-xl w-1/2 p-2"
-                                />
-                            </div>
+                            {rating.grades && rating.grades.length > 0 && (
+                                <>
+                                    <input
+                                        type="text"
+                                        name="grade_id"
+                                        defaultValue={rating.grades[0].id}
+                                        className="text-slate-100 bg-slate-100 pointer-events-none select-none"
+                                        readOnly
+                                        tabIndex={-1}
+                                    />
+
+                                    <div className="flex content-center">
+                                        <label htmlFor="grade" className="text-black mr-4 content-center">
+                                            Calificación
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="grade"
+                                            placeholder="De 0 a 100"
+                                            defaultValue={rating.grades[0].grade}
+                                            className="text-black font-bold border border-slate-600 rounded-xl w-1/2 p-2"
+                                        />
+                                    </div>
+                                </>
+                            )}
 
                             <input
                                 type="submit"

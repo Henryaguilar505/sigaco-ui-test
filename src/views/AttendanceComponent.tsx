@@ -4,7 +4,6 @@ import { getAttendanceOfCourse } from '../services/attendanceService';
 import { Course, AttendanceOfCourse, Attendance } from '../types';
 import Aside from '../components/Aside';
 import { convertToHourMinute, formatDate } from '../utils';
-import Tooltip from '../components/ToolTip';
 import { useNavigate } from 'react-router-dom';
 
 const iconX =

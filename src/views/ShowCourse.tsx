@@ -1,6 +1,6 @@
 import { Link, LoaderFunctionArgs, redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import { getCourseById } from '../services/courseService'
-import { Course, CourseWithStudent } from '../types'
+import { CourseWithStudent } from '../types'
 
 export async function loader({ params }: LoaderFunctionArgs) {
     if (params.id !== undefined) {
